@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Cucina — Ресторан итальянской кухни</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #1a1410;
+  --bg-alt: #221a14;
+  --card: #2a2018;
+  --text: #f5ebe0;
+  --text-h: #ffffff;
+  --text-m: #b8a898;
+  --accent: #d4a548;
+  --accent-hover: #e0b858;
+  --gold: #c9a882;
+  --border: rgba(212,165,72,0.2);
+  --shadow: rgba(0,0,0,0.5);
+  --shadow-hover: rgba(212,165,72,0.3);
+}
+[data-theme="light"] {
+  --bg: #fdf9f3;
+  --bg-alt: #f5ede0;
+  --card: #ffffff;
+  --text: #2a1e14;
+  --text-h: #1a1208;
+  --text-m: #7a6858;
+  --accent: #c9964a;
+  --accent-hover: #b8863a;
+  --gold: #b8964a;
+  --border: rgba(201,150,74,0.25);
+  --shadow: rgba(201,150,74,0.15);
+  --shadow-hover: rgba(201,150,74,0.3);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
+}
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; font-weight: 600; }
+
+/* Кнопки сверху */
+.controls-top {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  display: flex;
+  gap: 10px;
+}
+.ctrl-btn {
+  width: 48px;
+  height: 48px;
+  background: rgba(26,20,16,0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px var(--shadow);
+  transition: 0.3s;
+  color: var(--text-h);
+}
+.ctrl-btn:hover { transform: scale(1.1); border-color: var(--accent); }
+
+/* НАВИГАЦИЯ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  background: rgba(26,20,16,0.8);
+  backdrop-filter: blur(20px);
+  padding: 20px 40px;
+  border-bottom: 1px solid transparent;
+  transition: 0.3s;
+}
+[data-theme="light"] .nav { background: rgba(253,249,243,0.85); }
+.nav.scrolled {
+  border-bottom-color: var(--border);
+  padding: 14px 40px;
+}
+.nav-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  color: var(--text-h);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+.nav-logo span { color: var(--accent); font-style: italic; }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::after { width: 100%; }
+.nav-btn {
+  padding: 12px 28px;
+  background: var(--accent);
+  color: #1a1410;
+  text-decoration: none;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+.nav-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+/* ГЛАВНЫЙ ЭКРАН */
+.hero {
+  height: 100vh;
+  min-height: 700px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80');
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26,20,16,0.7) 0%, rgba(26,20,16,0.5) 50%, rgba(26,20,16,0.9) 100%);
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  padding: 40px 20px;
+  max-width: 900px;
+}
+.hero-badge {
+  display: inline-block;
+  padding: 10px 24px;
+  border: 1px solid var(--accent);
+  border-radius: 30px;
+  font-size: 12px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 30px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 0.3s;
+}
+.hero-title {
+  font-size: 96px;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 20px;
+  letter-spacing: 2px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 0.6s;
+}
+.hero-title span { color: var(--accent); font-style: italic; }
+.hero-subtitle {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: #f5ebe0;
+  font-style: italic;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 0.9s;
+}
+.hero-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 1.2s;
+}
+.btn {
+  display: inline-block;
+  padding: 16px 40px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: 0.3s;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+.btn-primary {
+  background: var(--accent);
+  color: #1a1410;
+  box-shadow: 0 8px 24px var(--shadow-hover);
+}
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-3px); }
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255,255,255,0.5);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* СЕКЦИИ */
+section.section { padding: 120px 40px; }
+.section-alt { background: var(--bg-alt); }
+.section-card { background: var(--card); }
+.container { max-width: 1300px; margin: 0 auto; }
+.section-head { text-align: center; margin-bottom: 80px; }
+.section-title {
+  font-size: 56px;
+  color: var(--text-h);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+}
+.section-desc {
+  font-size: 13px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* О РЕСТОРАНЕ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.about-image {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px var(--shadow);
+}
+.about-image img { width: 100%; height: 100%; object-fit: cover; }
+.about-image::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: -20px;
+  bottom: -20px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  z-index: -1;
+}
+.about-text h3 {
+  font-size: 40px;
+  color: var(--text-h);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.about-text p {
+  font-size: 17px;
+  color: var(--text-m);
+  margin-bottom: 20px;
+  line-height: 1.9;
+}
+.about-signature {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 28px;
+  color: var(--accent);
+  margin-top: 30px;
+}
+
+/* МЕНЮ */
+.menu-categories {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 60px;
+  flex-wrap: wrap;
+}
+.menu-tab {
+  padding: 12px 28px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.menu-tab:hover { border-color: var(--accent); color: var(--accent); }
+.menu-tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1410;
+}
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px 60px;
+}
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
+.menu-item-info { flex: 1; }
+.menu-item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--text-h);
+  margin-bottom: 6px;
+}
+.menu-item-desc {
+  font-size: 14px;
+  color: var(--text-m);
+  line-height: 1.6;
+}
+.menu-item-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px;
+  color: var(--accent);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.menu-item-price small { font-size: 14px; }
+
+/* ГАЛЕРЕЯ */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 12px;
+  aspect-ratio: 16/9;
+}
+.gallery-item {
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  background: var(--bg-alt);
+}
+.gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gallery-item:nth-child(6) { grid-column: span 2; }
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+}
+.gallery-item:hover img { transform: scale(1.1); }
+.gallery-item::after {
+  content: '🔍';
+  position: absolute;
+  inset: 0;
+  background: rgba(26,20,16,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  opacity: 0;
+  transition: 0.3s;
+}
+.gallery-item:hover::after { opacity: 1; }
+
+/* ОТЗЫВЫ */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+.review-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 40px;
+  border: 1px solid var(--border);
+  position: relative;
+  transition: 0.3s;
+}
+.review-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--accent);
+  box-shadow: 0 20px 50px var(--shadow);
+}
+.review-stars {
+  color: var(--accent);
+  font-size: 20px;
+  margin-bottom: 20px;
+  letter-spacing: 3px;
+}
+.review-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 24px;
+  font-style: italic;
+}
+.review-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.review-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), #8a6a2a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1410;
+  font-weight: 700;
+  font-size: 18px;
+  font-family: 'Playfair Display', serif;
+}
+.review-name { font-weight: 600; font-size: 16px; color: var(--text-h); }
+.review-date { font-size: 13px; color: var(--text-m); }
+
+/* БРОНЬ */
+.booking-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.booking-info h3 {
+  font-size: 44px;
+  color: var(--text-h);
+  margin-bottom: 24px;
+  line-height: 1.2;
+}
+.booking-info p {
+  font-size: 17px;
+  color: var(--text-m);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+.info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.info-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.info-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--bg-alt);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  border: 1px solid var(--border);
+}
+.info-content { flex: 1; }
+.info-label {
+  font-size: 12px;
+  color: var(--text-m);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.info-value { font-size: 16px; color: var(--text-h); font-weight: 500; }
+
+.booking-form {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 50px 40px;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px var(--shadow);
+}
+.form-group { margin-bottom: 22px; }
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-m);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.form-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  background: var(--bg);
+  color: var(--text);
+  transition: 0.3s;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--card);
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.submit-btn {
+  width: 100%;
+  padding: 20px;
+  background: var(--accent);
+  color: #1a1410;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+.submit-btn:hover { background: var(--accent-hover); transform: translateY(-2px); }
+.submit-btn:disabled { opacity: 0.6; cursor: wait; }
+
+/* КАРТА */
+.map-container {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px var(--shadow);
+  height: 500px;
+  border: 1px solid var(--border);
+  margin-top: 80px;
+}
+.map-container iframe { width: 100%; height: 100%; border: none; }
+
+/* ФУТЕР */
+footer {
+  background: #0f0a06;
+  color: var(--text);
+  padding: 80px 40px 30px;
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 50px;
+  margin-bottom: 60px;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #fff;
+  letter-spacing: 2px;
+}
+.footer-logo span { color: var(--accent); font-style: italic; }
+.footer-desc { font-size: 14px; color: var(--text-m); line-height: 1.8; max-width: 320px; margin-bottom: 24px; }
+.socials { display: flex; gap: 12px; }
+.social {
+  width: 44px;
+  height: 44px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+  color: var(--text-h);
+  text-decoration: none;
+}
+.social:hover { background: var(--accent); color: #1a1410; border-color: var(--accent); }
+.footer-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 12px; }
+.footer-links a {
+  color: var(--text-m);
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.footer-links a:hover { color: var(--accent); }
+.footer-bottom {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-m);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+@media (max-width: 900px) {
+  .nav { padding: 16px 20px; }
+  .nav.scrolled { padding: 12px 20px; }
+  .nav-links { display: none; }
+  .hero-title { font-size: 56px; }
+  .hero-subtitle { font-size: 18px; }
+  .section-title { font-size: 36px; }
+  section.section { padding: 80px 20px; }
+  .about-grid { grid-template-columns: 1fr; gap: 50px; }
+  .about-text h3 { font-size: 30px; }
+  .menu-grid { grid-template-columns: 1fr; gap: 24px; }
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    aspect-ratio: auto;
+  }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 1; aspect-ratio: 16/9; }
+  .gallery-item:nth-child(6) { grid-column: span 2; }
+  .gallery-item { aspect-ratio: 1; }
+  .booking-grid { grid-template-columns: 1fr; gap: 50px; }
+  .booking-info h3 { font-size: 32px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 30px; }
+  .form-row { grid-template-columns: 1fr; }
+  .map-container { height: 350px; }
+}
+</style>
+</head>
+<body>
+<!-- Кнопки сверху -->
+<div class="controls-top">
+  <button class="ctrl-btn" id="themeBtn" onclick="toggleTheme()" title="Тема">☀</button>
+</div>
+
+<!-- НАВИГАЦИЯ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">La <span>Cucina</span></div>
+    <div class="nav-links">
+      <a href="#about">О нас</a>
+      <a href="#menu">Меню</a>
+      <a href="#gallery">Галерея</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#booking">Бронь</a>
+    </div>
+    <a href="#booking" class="nav-btn">Забронировать</a>
+  </div>
+</nav>
+
+<!-- ГЛАВНЫЙ ЭКРАН -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Итальянская кухня</div>
+    <h1 class="hero-title">La <span>Cucina</span></h1>
+    <p class="hero-subtitle">Настоящая Италия в центре Москвы с 2008 года</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn btn-primary">Забронировать столик</a>
+      <a href="#menu" class="btn btn-outline">Смотреть меню</a>
+    </div>
+  </div>
+</section>
+
+<!-- О НАС -->
+<section class="section section-alt" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80" alt="Ресторан">
+      </div>
+      <div class="about-text">
+        <h3>Итальянская душа<br>в каждой тарелке</h3>
+        <p>
+          La Cucina — это семейный ресторан, где шеф-повар Марко Росси
+          готовит по рецептам своей бабушки из Тосканы. Мы используем
+          только свежие продукты, привозим сыры и прошутто из Италии,
+          а пасту делаем вручную каждое утро.
+        </p>
+        <p>
+          Уютная атмосфера, живая музыка по выходным, винная карта
+          из 50+ позиций и вид на исторический центр — всё для того,
+          чтобы ваш вечер стал особенным.
+        </p>
+        <div class="about-signature">— Marco Rossi, шеф-повар</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- МЕНЮ -->
+<section class="section section-card" id="menu">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Наше меню</h2>
+      <p class="section-desc">Блюда итальянской кухни</p>
+    </div>
+
+    <div class="menu-categories">
+      <button class="menu-tab active" onclick="showCategory('starters', this)">Закуски</button>
+      <button class="menu-tab" onclick="showCategory('pasta', this)">Паста</button>
+      <button class="menu-tab" onclick="showCategory('pizza', this)">Пицца</button>
+      <button class="menu-tab" onclick="showCategory('desserts', this)">Десерты</button>
+      <button class="menu-tab" onclick="showCategory('drinks', this)">Напитки</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<!-- ГАЛЕРЕЯ -->
+<section class="section section-alt" id="gallery">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Атмосфера</h2>
+      <p class="section-desc">Наш ресторан</p>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </div>
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="section section-card" id="reviews">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Отзывы гостей</h2>
+      <p class="section-desc">Что о нас говорят</p>
+    </div>
+    <div class="reviews-grid" id="reviewsGrid"></div>
+  </div>
+</section>
+
+<!-- БРОНЬ -->
+<section class="section section-alt" id="booking">
+  <div class="container">
+    <div class="booking-grid">
+      <div class="booking-info">
+        <h3>Забронируйте<br>столик</h3>
+        <p>
+          Оставьте заявку — наш администратор перезвонит в течение
+          15 минут, подтвердит бронь и ответит на все вопросы.
+        </p>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-content">
+              <div class="info-label">Адрес</div>
+              <div class="info-value">Москва, ул. Кузнецкий Мост, 15</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">🕐</div>
+            <div class="info-content">
+              <div class="info-label">Часы работы</div>
+              <div class="info-value">Ежедневно, 12:00 — 00:00</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-content">
+              <div class="info-label">Телефон</div>
+              <div class="info-value">+7 (495) 123-45-67</div>
+            </div>
+          </div>
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-content">
+              <div class="info-label">Email</div>
+              <div class="info-value">hello@lacucina.ru</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <form class="booking-form" id="bookingForm" onsubmit="submitBooking(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Ваше имя</label>
+            <input type="text" class="form-input" id="bkName" placeholder="Иван" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Телефон</label>
+            <input type="tel" class="form-input" id="bkPhone" placeholder="+7 (___) ___-__-__" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Дата</label>
+            <input type="date" class="form-input" id="bkDate" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Время</label>
+            <input type="time" class="form-input" id="bkTime" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Гостей</label>
+            <input type="number" class="form-input" id="bkGuests" placeholder="2" min="1" max="20" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Имя для брони</label>
+            <input type="text" class="form-input" id="bkComment" placeholder="Пожелания">
+          </div>
+        </div>
+        <button type="submit" class="submit-btn" id="bkBtn">Забронировать столик</button>
+      </form>
+    </div>
+
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.3638768!2d37.625!3d55.762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzQzLjIiTiAzN8KwMzcnMzAuMCJF!5e0!3m2!1sru!2sru!4v1234567890"
+        loading="lazy"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ФУТЕР -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">La <span>Cucina</span></div>
+      <p class="footer-desc">
+        Семейный ресторан итальянской кухни в центре Москвы.
+        Настоящая Италия с 2008 года.
+      </p>
+      <div class="socials">
+        <a href="#" class="social" title="Instagram">📷</a>
+        <a href="#" class="social" title="Telegram">✈</a>
+        <a href="#" class="social" title="VK">VK</a>
+        <a href="#" class="social" title="Facebook">f</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">Меню</div>
+      <ul class="footer-links">
+        <li><a href="#menu">Закуски</a></li>
+        <li><a href="#menu">Паста</a></li>
+        <li><a href="#menu">Пицца</a></li>
+        <li><a href="#menu">Десерты</a></li>
+        <li><a href="#menu">Напитки</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Ресторан</div>
+      <ul class="footer-links">
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#gallery">Галерея</a></li>
+        <li><a href="#reviews">Отзывы</a></li>
+        <li><a href="#booking">Бронирование</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Контакты</div>
+      <ul class="footer-links">
+        <li>Москва, ул. Кузнецкий Мост, 15</li>
+        <li><a href="tel:+74951234567">+7 (495) 123-45-67</a></li>
+        <li><a href="mailto:hello@lacucina.ru">hello@lacucina.ru</a></li>
+        <li>Ежедневно 12:00 — 00:00</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 La Cucina. Все права защищены.</div>
+    <div>Сделано с любовью к Италии 🇮🇹</div>
+  </div>
+</footer>
+
+<script>
+// ===== ТЕМА =====
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  btn.textContent = next === 'dark' ? '☀' : '🌙';
+  localStorage.setItem('restTheme', next);
+}
+
+(function initTheme() {
+  const saved = localStorage.getItem('restTheme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.getElementById('themeBtn').textContent = '🌙';
+  }
+})();
+
+// ===== НАВИГАЦИЯ ПРИ СКРОЛЛЕ =====
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  if (window.scrollY > 50) nav.classList.add('scrolled');
+  else nav.classList.remove('scrolled');
+});
+
+// ===== МЕНЮ =====
+const menuData = {
+  starters: [
+    { name: 'Брускетта с томатами', desc: 'Хлеб на гриле, свежие томаты, базилик, оливковое масло', price: 490 },
+    { name: 'Карпаччо из говядины', desc: 'Тонкие ломтики мраморной говядины, руккола, пармезан', price: 890 },
+    { name: 'Тартар из лосося', desc: 'Свежий лосось, авокадо, цитрусовый соус', price: 790 },
+    { name: 'Буррата с хамоном', desc: 'Сыр буррата, прошутто, томаты черри, песто', price: 1090 },
+    { name: 'Вителло тоннато', desc: 'Телятина, соус из тунца, каперсы', price: 890 },
+    { name: 'Сырная тарелка', desc: '5 видов итальянских сыров, мёд, орехи', price: 1290 },
+  ],
+  pasta: [
+    { name: 'Карбонара', desc: 'Спагетти, гуанчиале, желток, пекорино романо', price: 890 },
+    { name: 'Болоньезе', desc: 'Тальятелле, говяжий фарш, томаты, пармезан', price: 890 },
+    { name: 'Тартюфо', desc: 'Феттуччине, трюфельный крем, пармезан', price: 1290 },
+    { name: 'Лингвини с креветками', desc: 'Лингвини, тигровые креветки, чеснок, чили', price: 1190 },
+    { name: 'Равиоли с рикоттой', desc: 'Домашние равиоли, рикотта, шпинат, сливочный соус', price: 990 },
+    { name: 'Пенне Арабьята', desc: 'Пенне, томатный соус, чили, чеснок', price: 790 },
+  ],
+  pizza: [
+    { name: 'Маргарита', desc: 'Томатный соус, моцарелла, базилик', price: 790 },
+    { name: 'Пепперони', desc: 'Томатный соус, моцарелла, пепперони', price: 890 },
+    { name: 'Четыре сыра', desc: 'Моцарелла, горгонзола, пармезан, дорблю', price: 1090 },
+    { name: 'Прошутто э Фунги', desc: 'Прошутто, шампиньоны, моцарелла, трюфельное масло', price: 1190 },
+    { name: 'Дьябло', desc: 'Острая салями, халапеньо, моцарелла, томаты', price: 990 },
+    { name: 'Кальцоне', desc: 'Закрытая пицца с рикоттой, шпинатом и ветчиной', price: 990 },
+  ],
+  desserts: [
+    { name: 'Тирамису', desc: 'Классический итальянский десерт с маскарпоне', price: 590 },
+    { name: 'Панна котта', desc: 'Сливочный десерт с ягодным соусом', price: 490 },
+    { name: 'Профитроли', desc: 'Заварные пирожные с кремом и шоколадом', price: 590 },
+    { name: 'Джелато', desc: 'Итальянское мороженое — 3 шарика на выбор', price: 390 },
+    { name: 'Канноли', desc: 'Хрустящие трубочки с рикоттой', price: 490 },
+    { name: 'Шоколадный фондан', desc: 'Тёплый шоколадный кекс с жидким центром', price: 690 },
+  ],
+  drinks: [
+    { name: 'Эспрессо', desc: 'Классический итальянский кофе', price: 190 },
+    { name: 'Капучино', desc: 'Эспрессо с молочной пенкой', price: 250 },
+    { name: 'Апероль Шприц', desc: 'Апероль, просекко, содовая, апельсин', price: 690 },
+    { name: 'Негрони', desc: 'Джин, кампари, красный вермут', price: 690 },
+    { name: 'Домашний лимонад', desc: 'Свежий лимон, мята, содовая', price: 390 },
+    { name: 'Вино (бокал)', desc: 'Красное/белое на выбор из винной карты', price: 490 },
+  ]
+};
+
+let currentCategory = 'starters';
+
+function renderMenu(category) {
+  const grid = document.getElementById('menuGrid');
+  grid.innerHTML = menuData[category].map(item => `
+    <div class="menu-item">
+      <div class="menu-item-info">
+        <div class="menu-item-name">${item.name}</div>
+        <div class="menu-item-desc">${item.desc}</div>
+      </div>
+      <div class="menu-item-price">${item.price} <small>₽</small></div>
+    </div>
+  `).join('');
+}
+
+function showCategory(category, btn) {
+  currentCategory = category;
+  document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(category);
+}
+
+renderMenu('starters');
+
+// ===== ГАЛЕРЕЯ =====
+const galleryImages = [
+  'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80',
+  'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=80',
+  'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1200&q=80',
+  'https://images.unsplash.com/photo-1552566626-52f8b828add9?w=1200&q=80',
+  'https://images.unsplash.com/photo-1592861956120-e524fc739696?w=1200&q=80',
+  'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=1200&q=80',
+];
+
+function renderGallery() {
+  const gallery = document.getElementById('gallery');
+  gallery.innerHTML = galleryImages.map((img, i) => `
+    <div class="gallery-item" onclick="openLightbox(${i})">
+      <img src="${img}" alt="Фото ${i + 1}">
+    </div>
+  `).join('');
+}
+renderGallery();
+
+let lightboxIndex = 0;
+
+function openLightbox(i) {
+  lightboxIndex = i;
+  let lb = document.getElementById('lightbox');
+  if (!lb) {
+    lb = document.createElement('div');
+    lb.id = 'lightbox';
+    lb.className = 'lightbox';
+    lb.innerHTML = `
+      <button class="lightbox-close" onclick="closeLightbox()">×</button>
+      <button class="lightbox-prev" onclick="changeLightbox(-1)">‹</button>
+      <img id="lightboxImg" src="" alt="">
+      <button class="lightbox-next" onclick="changeLightbox(1)">›</button>
+    `;
+    document.body.appendChild(lb);
+  }
+  document.getElementById('lightboxImg').src = galleryImages[i];
+  lb.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function changeLightbox(dir) {
+  lightboxIndex = (lightboxIndex + dir + galleryImages.length) % galleryImages.length;
+  document.getElementById('lightboxImg').src = galleryImages[lightboxIndex];
+}
+
+document.addEventListener('keydown', (e) => {
+  const lb = document.getElementById('lightbox');
+  if (!lb || !lb.classList.contains('show')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') changeLightbox(-1);
+  if (e.key === 'ArrowRight') changeLightbox(1);
+});
+
+// ===== ОТЗЫВЫ =====
+const reviews = [
+  { name: 'Анна С.', date: 'Май 2025', stars: 5, text: 'Лучшая паста в Москве! Атмосфера как в настоящей Италии. Обязательно вернёмся.' },
+  { name: 'Дмитрий К.', date: 'Апрель 2025', stars: 5, text: 'Отмечали здесь годовщину. Персонал — огонь, еда — восторг, вино — топ. Спасибо!' },
+  { name: 'Елена В.', date: 'Апрель 2025', stars: 5, text: 'Тирамису здесь лучший, что я пробовала. И вид на Кузнецкий Мост — просто сказка.' },
+  { name: 'Михаил П.', date: 'Март 2025', stars: 5, text: 'Ходим с женой каждую пятницу. Карбонара — эталон. Шеф знает своё дело!' },
+  { name: 'Ольга Р.', date: 'Март 2025', stars: 5, text: 'Были на дне рождения. Организовали всё идеально, даже торт от шефа. Рекомендую!' },
+  { name: 'Сергей Л.', date: 'Февраль 2025', stars: 5, text: 'Пицца Маргарита — как в Неаполе. Тесто тонкое, начинка свежая. 10 из 10!' },
+];
+
+function renderReviews() {
+  const grid = document.getElementById('reviewsGrid');
+  grid.innerHTML = reviews.map(r => `
+    <div class="review-card">
+      <div class="review-stars">${'★'.repeat(r.stars)}</div>
+      <div class="review-text">${r.text}</div>
+      <div class="review-author">
+        <div class="review-avatar">${r.name[0]}</div>
+        <div>
+          <div class="review-name">${r.name}</div>
+          <div class="review-date">${r.date}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderReviews();
+
+// ===== БРОНЬ =====
+// ВАЖНО: замени на свои BOT_TOKEN и CHAT_ID
+const BOT_TOKEN = 'ТВОЙ_ТОКЕН_БОТА';
+const CHAT_ID = 'ТВОЙ_CHAT_ID';
+
+async function submitBooking(e) {
+  e.preventDefault();
+  const btn = document.getElementById('bkBtn');
+  btn.disabled = true;
+  btn.textContent = 'Отправка...';
+
+  const name = document.getElementById('bkName').value;
+  const phone = document.getElementById('bkPhone').value;
+  const date = document.getElementById('bkDate').value;
+  const time = document.getElementById('bkTime').value;
+  const guests = document.getElementById('bkGuests').value;
+  const comment = document.getElementById('bkComment').value || '—';
+
+  const text =
+    `🍽 *Новая бронь столика!*\n\n` +
+    `👤 Имя: ${name}\n` +
+    `📞 Телефон: ${phone}\n` +
+    `📅 Дата: ${date}\n` +
+    `🕐 Время: ${time}\n` +
+    `👥 Гостей: ${guests}\n` +
+    `💬 Пожелания: ${comment}`;
+
+  try {
+    if (BOT_TOKEN !== 'ТВОЙ_ТОКЕН_БОТА') {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' })
+      });
+    }
+    alert('Спасибо! Ваша бронь принята. Администратор перезвонит в течение 15 минут.');
+    e.target.reset();
+  } catch (err) {
+    alert('Ошибка отправки. Попробуйте ещё раз.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Забронировать столик';
+  }
+}
+
+// ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('section').forEach(section => {
+  section.style.opacity = '0';
+  section.style.transform = 'translateY(40px)';
+  section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  observer.observe(section);
+});
+</script>
+</body>
+</html>
